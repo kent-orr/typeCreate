@@ -6,10 +6,18 @@
 #'
 #' @export
 #'
-type_create_form_object <- function(title = paste("New Form", Sys.Date())) {
+form_object <- function(title = paste("New Form", Sys.Date())) {
   x = list(title = title)
   class(x) <- c("list", "typeform")
   x
+}
+
+#' @param x object of class typeform
+#'
+#' @export
+#'
+print.typeform <- function(x) {
+  print(jsonlite::toJSON(x, auto_unbox = T, pretty = TRUE))
 }
 
 #' Create a form field, often a question in the form.
@@ -18,7 +26,7 @@ type_create_form_object <- function(title = paste("New Form", Sys.Date())) {
 #' @param title the field title.
 #' @param type type of field, See details for more.
 #' @param ref the machine readable name for the referenced field.
-#' @param properties field properties. Can be created with field_multiple_choice_properties or other appropraite functions.
+#' @param properties field properties. Can be created with field_prop_multi or other appropraite functions.
 #' @param validations array of validation statements
 #' @param attachment images and other attachments
 #' @param layout layout schema
@@ -33,7 +41,7 @@ type_create_form_object <- function(title = paste("New Form", Sys.Date())) {
 #' @return returns the entire form object with the new field appended.
 #' @export
 #'
-type_create_form_field <- function(form_object,
+form_field <- function(form_object,
                                    title,
                                    type,
                                    ref = snakecase::to_snake_case(title),
@@ -41,7 +49,7 @@ type_create_form_field <- function(form_object,
                                    validations = NULL,
                                    attachment = NULL,
                                    layout = NULL,
-                                   verbose = TRUE) {
+                                   verbose = FALSE) {
   field <- list(title = title,
                 ref = ref,
                 type = type,
@@ -71,7 +79,7 @@ type_create_form_field <- function(form_object,
 #' @return returns a properties object to be used in creating a field
 #' @export
 #'
-field_multiple_choice_properties <- function(
+field_prop_multi <- function(
     description,
     labels,
     refs = snakecase::to_snake_case(labels),
@@ -98,41 +106,91 @@ field_multiple_choice_properties <- function(
   properties
 }
 
-type_create_logic_jump <- function(
+form_settings <- function(form_object, settings = list(hide_navigation = FALSE)) {
+  settings <- list(settings)
+  form_object$settings <- c(form_object$settings, settings)
+  form_object
+}
+
+#' Create a logic field
+#'
+#' @param form_object a form object
+#' @param ref the field for which a logical condition is checked
+#' @param ref_type either "field" or "hidden"
+#' @param actions an array of actions and conditions. Caan be created with functions like `jump_actions()`.
+#'
+#' @export
+#'
+form_logic <- function(
     form_object,
-    ref, # ref from
-    to, # ref to
-    operation = "equal", # operation being applied
+    ref,
+    ref_type,
+    actions) {
+  logic_field <-
+    list(ref = ref, type = ref_type,
+         actions = actions
+         )
 
-    type = "field" # what type of valu is being monitored
-) {
+  form_object$logic <- append(form_object$logic, list(logic_field))
+  form_object
+  }
 
-  logic_field <- list(
-    ref = ref,
-    type = type,
-    actions = list(
-      type = "jump",
-      jump = list(
-        to = list(
-          type = "field", value = to
-        )
-      ),
-      condition = list(
-        op = operation
+#' Create vector of actions for a logic jump ref
+#'
+#' @param ref the reference being checked in the condition. Often the same ref as the logic field
+#' @param to the ref to jump to
+#' @param operation the operation to be applied
+#' @param op_value the value being tested in the operation
+#' @param monitored_type the type of field, "hidden" or "field" being checked in the operation
+#'
+#' @return returns a field that can be nested in the actions array of a logic jump.
+#' @export
+#'
+actions_jump_multi <- function(ref, to, operation, op_value, monitored_type) {
+  lapply(seq_along(to), \(i) {
+  list(
+    action = "jump",
+    details = list(
+      to = list(
+        type = "field",
+        value = to[i]
+      )
+    ), # end details
+    condition = list(
+      op = operation,
+      vars = list(
+        list(type = monitored_type,
+             value = ref),
+        list(type = "choice",
+             value = op_value[i])
       )
     )
   )
-
-  jsonlite::toJSON(logic_field, pretty = TRUE, auto_unbox = T)
-  # form_object$logic <- append(form_object$logic, list(logic_field))
-  # form_object
+  })
 }
+
+actions_jump_always <- function(to) {
+  lapply(seq_along(to), \(i) {
+    list(
+      action = "jump",
+      details = list(
+        to = list(
+          type = "field",
+          value = to[i]
+        )
+      ), # end details
+      condition = list(
+        op = "always",
+        vars = list()
+      )
+    )
+  })
+}
+
 
 # type_create_logic_jump(new_form2, "q_2", "q_1")
 #
-# print.typeform <- function(x) {
-#   print(jsonlite::toJSON(x, auto_unbox = T, pretty = TRUE))
-# }
+
 #
 # new_form2 <- type_create_form_object() |>
 #   type_create_form_field("Q1", "multiple_choice",

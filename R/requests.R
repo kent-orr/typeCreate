@@ -27,5 +27,5 @@ type_post <- function(endpoint, payload, auth = config::get()$typeform) {
   curl::handle_setopt(handle, customrequest = "POST")
   curl::handle_setopt(handle, postfields = payload)
   response = curl::curl_fetch_memory(glue::glue("https://api.typeform.com/{endpoint}"), handle)
-  rawToChar(response)
+  response
 }
