@@ -50,7 +50,7 @@ type_responses <- function(form_id, attempt_table = TRUE, wide_table = TRUE, aut
       })
     }) |> as.vector()
 
-    # concatenate the differnet ref objects, which usually are a human readable identifier
+    # concatenate the different ref objects, which usually are a human readable identifier
     refs <- sapply(response.l["items"][[1]][["answers"]], \(i) {
       i[[1]][["ref"]]
     }) |> as.vector()
@@ -63,14 +63,14 @@ type_responses <- function(form_id, attempt_table = TRUE, wide_table = TRUE, aut
       x = data.table::as.data.table(response.l[["items"]][["hidden"]])
       x[,submitted_at := response.l$items$submitted_at]
       x[,response_id := response.l$items$response_id]
-      x <- melt(x, id.vars = c("submitted_at", "response_id"),
+      x <- data.table::melt(x, id.vars = c("submitted_at", "response_id"),
                 value.name = "value", variable.name = "ref")
       response <- rbind(x, response, fill = TRUE)[order(submitted_at, response_id)]
     }
 
     # if a wide table is requested, drop to only necessary fields in wide format
     if (wide_table)
-      response <- response[,dcast(.SD, submitted_at + response_id ~ ref)]
+      response <- response[,data.table::dcast(.SD, submitted_at + response_id ~ ref)]
   }
   response
 }
