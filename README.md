@@ -32,5 +32,6 @@ new_form <- form_object(title = "New Form") |>
    type = "short_text"
      )
      
-type_post("forms", new_form)
+link <- create_form(new_form)
+browseURL(link)
 ```
