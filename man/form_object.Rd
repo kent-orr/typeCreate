@@ -12,3 +12,6 @@ form_object(title = paste("New Form", Sys.Date()))
 \description{
 Creates a list that can be appended with form fields, attachments, etc.
 }
+\details{
+reference: https://developer.typeform.com/create/reference/create-form/
+}

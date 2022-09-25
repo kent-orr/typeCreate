@@ -3,7 +3,7 @@ products <- DBI::dbReadTable(conn, "products")
 pos <- DBI::dbReadTable(conn, "points_of_sale")
 DBI::dbDisconnect(conn)
 
-
+form_id = "AguBBFpm"
 
 new_form <- form_object(Sys.time()) |>
   form_field("Point of Sale", "multiple_choice", "pos",

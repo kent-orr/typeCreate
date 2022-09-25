@@ -39,7 +39,7 @@ form_field(
 returns the entire form object with the new field appended.
 }
 \description{
-Create a form field, often a question in the form.
+reference: https://developer.typeform.com/create/reference/create-form/
 }
 \section{Type: Valid Values}{
 "calendly" "datedropdown" "email" "file_upload" "group" "legal" "long_text matrix"
