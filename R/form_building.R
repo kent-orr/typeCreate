@@ -36,11 +36,28 @@ print.typeform <- function(x) {
 #' @param layout layout schema
 #' @param verbose should a pretty printed json be shown after each call?
 #'
-#' @details
 #' @details # Type: Valid Values
-#'  "calendly" "datedropdown" "email" "file_upload" "group" "legal" "long_text matrix"
-#'  "multiple_choice" "nps" "number" "opinion_scale" "payment" "phone_number"
-#'  "picture_choice" "ranking" "rating" "short_text" "statement" "website" "yes_no"
+#' - calendly
+#' - datedropdown
+#' - email
+#' - file_upload
+#' - group
+#' - legal
+#' - long_text
+#' - matrix
+#' - multiple_choice
+#' - nps
+#' - number
+#' - opinion_scale
+#' - payment
+#' - phone_number
+#' - picture_choice
+#' - ranking
+#' - rating
+#' - short_text
+#' - statement
+#' - website
+#' - yes_no
 #'
 #' @return returns the entire form object with the new field appended.
 #' @export
@@ -207,59 +224,34 @@ actions_jump_always <- function(to) {
   })
 }
 
-
-# type_create_logic_jump(new_form2, "q_2", "q_1")
-#
-
-#
-# new_form2 <- type_create_form_object() |>
-#   type_create_form_field("Q1", "multiple_choice",
-#                          properties = field_multiple_choice_properties(
-#                            "What of these is the answer?",
-#                            c("A", "B", "C")
-#                          )) |>
-#   type_create_form_field("Q2", "short_text") |>
-#
-#   response = type_post("forms", new_form2)
-# new_form2
-# response$content |> rawToChar() |> jsonlite::fromJSON()
-#
-# new_form <- type_create_form_object() |>
-#   type_create_form_field("Point of Sale", "multiple_choice",
-#                          properties = field_multiple_choice_properties(
-#                            "What Point of Sale are you Counting For?",
-#                            paste(pos$pos_name, pos$pos_location),
-#                            pos$pos_id
-#                          )) |>
-#   type_create_form_field("Category", "multiple_choice",
-#                          properties = field_multiple_choice_properties(
-#                            "What Product Category is being counted?",
-#                            sort(unique(products$inv_category))
-#                          ))
-# for (i in sort(unique(products$inv_category))) {
-#   cat_products = subset(products, inv_category == i)
-#   choice_items = paste(cat_products$inv_item, cat_products$inv_unit)
-#   ref_items = cat_products$inv_id
-#   new_form <- type_create_form_field(new_form,
-#                                      paste(i, "Items"), "multiple_choice",
-#                                      ref = snakecase::to_snake_case(i),
-#                                      properties = field_multiple_choice_properties(
-#                                        paste("What", i, "is being counted"),
-#                                        c(choice_items),
-#                                        c(ref_items)
-#                                      ))
-# }
-#
-# response = type_post("forms", new_form)
-# new_form
-# response$content |> rawToChar() |> jsonlite::fromJSON()
-#
-# payload = list(
-#   title = "New API Form2",
-#   fields = list(
-#     list(
-#       type = "short_text",
-#       title = "Airspeed?"
-#     )
-#   )
-# )
+#' Create a Typeform
+#'
+#' @param form_object the form object to provide the forms API endpoint
+#' @param auth personal access token
+#'
+#' @return if error, response. If success, the link to the live form
+#' @export
+#'
+#' @examples
+#' new_form <- form_object(title = "New Form") |>
+#'   form_field(
+#'     title = "Select a Color",
+#'     type = "multiple_choice",
+#'     ref = "color_select",
+#'     properties = field_prop_multi(
+#'       description = "Select a color form the given choices",
+#'       labels = c("Red", "Blue", "Green")
+#'     )
+#'   )
+#'
+#' link <- crate_form(new_form)
+#' browseURL(link)
+create_form <- function(form_object, auth = config::get()$typeform) {
+  resp = type_post("forms", form_object, auth = auth)
+  if (signif(resp$status_code, 1) != 200) {
+    resp$content |> rawToChar() |> jsonlite::fromJSON()
+  } else {
+    resp$content |> rawToChar() |> jsonlite::fromJSON() |>
+      {\(x) x[["_links"]][["display"]]}()
+  }
+}

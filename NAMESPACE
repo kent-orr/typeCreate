@@ -3,6 +3,7 @@
 S3method(print,typeform)
 export(actions_jump_always)
 export(actions_jump_multi)
+export(create_form)
 export(field_prop_multi)
 export(form_field)
 export(form_logic)

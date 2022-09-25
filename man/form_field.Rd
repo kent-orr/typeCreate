@@ -42,8 +42,28 @@ returns the entire form object with the new field appended.
 reference: https://developer.typeform.com/create/reference/create-form/
 }
 \section{Type: Valid Values}{
-"calendly" "datedropdown" "email" "file_upload" "group" "legal" "long_text matrix"
-"multiple_choice" "nps" "number" "opinion_scale" "payment" "phone_number"
-"picture_choice" "ranking" "rating" "short_text" "statement" "website" "yes_no"
+\itemize{
+\item calendly
+\item datedropdown
+\item email
+\item file_upload
+\item group
+\item legal
+\item long_text
+\item matrix
+\item multiple_choice
+\item nps
+\item number
+\item opinion_scale
+\item payment
+\item phone_number
+\item picture_choice
+\item ranking
+\item rating
+\item short_text
+\item statement
+\item website
+\item yes_no
+}
 }
 
