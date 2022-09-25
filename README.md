@@ -1,5 +1,6 @@
 # typeCreate
 
+R package for Typeform
 Generate and retrieve typeorms via the typeform API.
 
 ## Authentication
