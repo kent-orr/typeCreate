@@ -60,7 +60,7 @@ type_responses <- function(form_id, attempt_table = TRUE, wide_table = TRUE, aut
 
     # if there are hidden fields label according to id and timestamp and append to dataframe
     if (!is.null(response.l[["items"]][["hidden"]])) {
-      x = as.data.table(response.l[["items"]][["hidden"]])
+      x = data.table::as.data.table(response.l[["items"]][["hidden"]])
       x[,submitted_at := response.l$items$submitted_at]
       x[,response_id := response.l$items$response_id]
       x <- melt(x, id.vars = c("submitted_at", "response_id"),
