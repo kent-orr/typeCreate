@@ -2,6 +2,8 @@
 #'
 #' Creates a list that can be appended with form fields, attachments, etc.
 #'
+#' reference: https://developer.typeform.com/create/reference/create-form/
+#'
 #' @param title Title of the form
 #'
 #' @export
@@ -21,6 +23,8 @@ print.typeform <- function(x) {
 }
 
 #' Create a form field, often a question in the form.
+#'
+#' reference: https://developer.typeform.com/create/reference/create-form/
 #'
 #' @param form_object a form created by type_create_form_object.
 #' @param title the field title.
@@ -106,6 +110,16 @@ field_prop_multi <- function(
   properties
 }
 
+#' Create settings for a form
+#'
+#'
+#'
+#' @param form_object the form object
+#' @param settings a named list of settings.
+#'
+#'
+#' @export
+#'
 form_settings <- function(form_object, settings = list(hide_navigation = FALSE)) {
   settings <- list(settings)
   form_object$settings <- c(form_object$settings, settings)
@@ -169,6 +183,12 @@ actions_jump_multi <- function(ref, to, operation, op_value, monitored_type) {
   })
 }
 
+#' Create a "jump always" action for a logic field
+#'
+#' @param to the ref to jump to
+#'
+#' @export
+#'
 actions_jump_always <- function(to) {
   lapply(seq_along(to), \(i) {
     list(
