@@ -2,7 +2,7 @@
 % Please edit documentation in R/account_mgmt.R
 \name{get_forms}
 \alias{get_forms}
-\title{Title}
+\title{Get forms from your account}
 \usage{
 get_forms(..., auth = config::get()$typeform)
 }
@@ -12,7 +12,7 @@ get_forms(..., auth = config::get()$typeform)
 \item{auth}{}
 }
 \description{
-Title
+Get forms from your account
 }
 \details{
 query parameters are

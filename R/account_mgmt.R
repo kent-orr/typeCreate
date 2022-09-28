@@ -83,7 +83,7 @@ delete_forms <- function(form_vector, auth = config::get()$typeform) {
 
 #' Update a Form
 #'
-#' @param form_id the id o fhte form to update
+#' @param form_id the id of the form to update
 #' @param form_object a typeform object
 #' @param auth personal access token
 #'
