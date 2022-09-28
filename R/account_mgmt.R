@@ -1,4 +1,36 @@
-#' Title
+#' Create a Typeform
+#'
+#' @param form_object the form object to provide the forms API endpoint
+#' @param auth personal access token
+#'
+#' @return if error, response. If success, the link to the live form
+#' @export
+#'
+#' @examples
+#' new_form <- form_object(title = "New Form") |>
+#'   form_field(
+#'     title = "Select a Color",
+#'     type = "multiple_choice",
+#'     ref = "color_select",
+#'     properties = field_prop_multi(
+#'       description = "Select a color form the given choices",
+#'       labels = c("Red", "Blue", "Green")
+#'     )
+#'   )
+#'
+#' link <- crate_form(new_form)
+#' browseURL(link)
+create_form <- function(form_object, auth = config::get()$typeform) {
+  resp = type_post("forms", form_object, auth = auth)
+  if (signif(resp$status_code, 1) != 200) {
+    resp$content |> rawToChar() |> jsonlite::fromJSON()
+  } else {
+    resp$content |> rawToChar() |> jsonlite::fromJSON() |>
+      {\(x) x[["_links"]][["display"]]}()
+  }
+}
+
+#' Get forms from your account
 #'
 #' @param ... query parameters. defaults to page_size = 200. See details
 #' @param auth
