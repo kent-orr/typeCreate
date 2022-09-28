@@ -6,6 +6,7 @@
 \usage{
 type_responses(
   form_id,
+  ...,
   attempt_table = TRUE,
   wide_table = TRUE,
   auth = config::get()$typeform
@@ -13,6 +14,8 @@ type_responses(
 }
 \arguments{
 \item{form_id}{the form id, can be found in the URL of a form}
+
+\item{...}{query paramters. See details}
 
 \item{attempt_table}{coerce the results to a table?}
 

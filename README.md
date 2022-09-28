@@ -6,7 +6,7 @@ Generate and retrieve typeorms via the typeform API.
 ## Authentication
 
 Authentication is done vi Typeform's API [personal access token](https://developer.typeform.com/get-started/personal-access-token/).
-The package itself assumes a .yml in your home directory compatible with the `config` package. 
+The package itself assumes a `config.yml` file in your home directory compatible with the `config` package. 
 
 ```
 default:
@@ -36,6 +36,67 @@ new_form <- form_object(title = "New Form") |>
 link <- create_form(new_form)
 browseURL(link)
 ```
+
+A full form as a listin R will have the following structure:
+
+```
+List of 12
+ $ cui_settings    :List of 1
+  ..$ avatar: chr "https://images.typeform.com/images/4BKUhw8A9cSM"
+ $ fields          :'data.frame':	19 obs. of  7 variables:
+  ..$ attachment :'data.frame':	19 obs. of  4 variables:
+  ..$ properties :'data.frame':	19 obs. of  21 variables:
+  ..$ ref        : chr [1:19] "nice_readable_date_reference" "nice_readable_dropdown_reference" "nice_readable_email_reference" "nice_readable_file_upload_reference" ...
+  ..$ title      : chr [1:19] "Date Title" "Dropdown Title" "Email Title" "File Upload Title" ...
+  ..$ type       : chr [1:19] "date" "dropdown" "email" "file_upload" ...
+  ..$ validations:'data.frame':	19 obs. of  4 variables:
+  ..$ layout     :'data.frame':	19 obs. of  3 variables:
+ $ hidden          : chr [1:3] "var1" "var2" "var3"
+ $ logic           :'data.frame':	1 obs. of  3 variables:
+  ..$ actions:List of 1
+  ..$ ref    : chr "nice_readable_yes_no_reference"
+  ..$ type   : chr "field"
+ $ settings        :List of 16
+  ..$ facebook_pixel            : chr "4347295725729872"
+  ..$ google_analytics          : chr "UA-1111-22"
+  ..$ google_tag_manager        : chr "GTM-43959999"
+  ..$ hide_navigation           : logi FALSE
+  ..$ is_public                 : logi FALSE
+  ..$ language                  : chr "en"
+  ..$ meta                      :List of 5
+  ..$ notifications             :List of 2
+  ..$ progress_bar              : chr "percentage"
+  ..$ redirect_after_submit_url : chr "https://www.redirecttohere.com"
+  ..$ show_cookie_consent       : logi FALSE
+  ..$ show_number_of_submissions: logi FALSE
+  ..$ show_progress_bar         : logi TRUE
+  ..$ show_question_number      : logi TRUE
+  ..$ show_time_to_complete     : logi TRUE
+  ..$ show_typeform_branding    : logi FALSE
+ $ thankyou_screens:'data.frame':	1 obs. of  4 variables:
+  ..$ attachment:'data.frame':	1 obs. of  2 variables:
+  ..$ properties:'data.frame':	1 obs. of  5 variables:
+  ..$ ref       : chr "nice-readable-thank-you-ref"
+  ..$ title     : chr "Thank you Title"
+ $ theme           :List of 1
+  ..$ href: chr "https://api.typeform.com/themes/qHWOQ7"
+ $ title           : chr "This is an example form"
+ $ type            : chr "form"
+ $ variables       :List of 4
+  ..$ age  : int 28
+  ..$ name : chr "typeform"
+  ..$ price: num 10.6
+  ..$ score: int 0
+ $ welcome_screens :'data.frame':	1 obs. of  4 variables:
+  ..$ layout    :'data.frame':	1 obs. of  3 variables:
+  ..$ properties:'data.frame':	1 obs. of  3 variables:
+  ..$ ref       : chr "nice-readable-welcome-ref"
+  ..$ title     : chr "Welcome Title"
+ $ workspace       :List of 1
+  ..$ href: chr "https://api.typeform.com/workspaces/Aw33bz"s
+```
+
+
 ## Retrieving a Form
 
 ```

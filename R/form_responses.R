@@ -17,14 +17,27 @@ val_extractor <- function(type) {
 #' Retrieve Responses from a Typeform
 #'
 #' @param form_id the form id, can be found in the URL of a form
+#' @param ... query paramters. See details
 #' @param attempt_table coerce the results to a table?
 #' @param wide_table only if attempt_table = TRUE, simplify table results to a wide format
 #' @param auth typeform API token
 #'
+#' @details
+#'
 #' @export
 #'
-type_responses <- function(form_id, attempt_table = TRUE, wide_table = TRUE, auth = config::get()$typeform) {
-  response <- type_request(glue::glue("forms/{form_id}/responses"), auth)
+type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE, auth = config::get()$typeform) {
+
+  query <- list(...)
+  query <- if (length(query) != 0) {
+    nm = names(query)
+    va = query
+    paste0("?", paste(nm, va, sep = "=", collapse = "&"))
+  } else {
+    ""
+  }
+
+  response <- type_request(glue::glue("forms/{form_id}/responses{query}"), auth)
   response.l <- response <- response$content |> rawToChar() |> jsonlite::fromJSON()
 
   if (attempt_table) {
