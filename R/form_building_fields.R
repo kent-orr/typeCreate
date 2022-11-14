@@ -61,6 +61,27 @@ form_field <- function(form_object,
   invisible(form_object)
 }
 
+#' Create hidden fields
+#'
+#' @param form_object a form created by type_create_form_object.
+#' @param fields a character vector of field names
+#' @param verbose should a pretty printed json be shown after each call?
+#'
+#' @return
+#' @export
+#'
+form_field_hidden <- function(form_object, fields, verbose = TRUE) {
+  hidden <- fields
+  form_object$hidden <- append(form_object$hidden, hidden[!hidden %in% form_object$hidden])
+  if (length(form_object$hidden) == 1)
+    form_objects$hidden <- list(form_objects$hidden)
+
+
+  if (verbose)
+    print(jsonlite::toJSON(form_object, auto_unbox = T, pretty = TRUE))
+  invisible(form_object)
+}
+
 #' Create properties for a multiple choice field.
 #'
 #' Supplied to the `properties` argument in `type_create_form_field`.
