@@ -74,7 +74,7 @@ form_field_hidden <- function(form_object, fields, verbose = TRUE) {
   hidden <- fields
   form_object$hidden <- append(form_object$hidden, hidden[!hidden %in% form_object$hidden])
   if (length(form_object$hidden) == 1)
-    form_objects$hidden <- list(form_objects$hidden)
+    form_object$hidden <- list(form_objects$hidden)
 
 
   if (verbose)
