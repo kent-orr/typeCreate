@@ -47,7 +47,7 @@ new_form <- new_form |>
   form_field("Batch / Case / Whole Bottles",
              "number",
              "batches"
-             ) |>
+             ) |>paw
   form_field("Units",
              "number",
              "units"

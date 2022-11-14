@@ -23,10 +23,10 @@
 create_form <- function(form_object, auth = config::get()$typeform) {
   resp = type_post("forms", form_object, auth = auth)
   if (signif(resp$status_code, 1) != 200) {
+    message("request failed")
     resp$content |> rawToChar() |> jsonlite::fromJSON()
   } else {
-    resp$content |> rawToChar() |> jsonlite::fromJSON() |>
-      {\(x) x[["_links"]][["display"]]}()
+    resp$content |> rawToChar() |> jsonlite::fromJSON()
   }
 }
 

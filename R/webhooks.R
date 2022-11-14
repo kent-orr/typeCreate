@@ -51,6 +51,7 @@ create_webhook <- function(form_id, tag, url, ..., auth = config::get()$typeform
   }
   type_put(glue::glue("forms/{form_id}/webhooks/{tag}"), payload, auth = auth)
 }
+
 #' Create or Update a Webhook
 #'
 #' @inheritParams create_webhook
@@ -58,6 +59,10 @@ create_webhook <- function(form_id, tag, url, ..., auth = config::get()$typeform
 #' @export
 update_webhook <- function(form_id, tag, url, ..., auth = config::get()$typeform) {
   create_webhook(form_id, tag, url, ..., auth = config::get()$typeform)
+}
+
+delete_webhook <- function(form_id, tag, auth = config::get()$typeform) {
+  type_delete(glue::glue("forms/{form_id}/webhooks/{tag}"), payload = NULL, auth = auth)
 }
 
 sample_payload <- '{

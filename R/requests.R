@@ -47,3 +47,21 @@ type_put <- function(endpoint, payload, auth = config::get()$typeform) {
   response = curl::curl_fetch_memory(glue::glue("https://api.typeform.com/{endpoint}"), handle)
   response
 }
+
+#' Send a delete to the typeform API
+#'
+#' @inheritParams type_post
+#'
+#' @return returns the response content
+#' @export
+#'
+type_delete <- function(endpoint, payload, auth = config::get()$typeform) {
+  if (!"json" %in% class(payload))
+    payload <- jsonlite::toJSON(payload, auto_unbox = TRUE)
+  handle = curl::new_handle()
+  curl::handle_setheaders(handle, .list = list(Authorization = glue::glue("Bearer {auth}")))
+  curl::handle_setopt(handle, customrequest = "DELETE")
+  curl::handle_setopt(handle, postfields = payload)
+  response = curl::curl_fetch_memory(glue::glue("https://api.typeform.com/{endpoint}"), handle)
+  response
+}
