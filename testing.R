@@ -51,7 +51,8 @@ new_form <- new_form |>
   form_field("Units",
              "number",
              "units"
-  )
+  ) |>
+    thank_you_screens("Count Again")
 
 response = type_post("forms", new_form)
 response$content |> rawToChar() |> jsonlite::fromJSON()

@@ -123,3 +123,32 @@ field_prop_multi <- function(
 
   properties
 }
+
+
+thank_you_screens <- function(form_object,
+                              title = "Response Recorded",
+                              ref = snakecase::to_snake_case(title),
+                              type = "thankyou_screen",
+                              show_button = TRUE,
+                              button_text = "Record Again",
+                              button_mode = "reload",
+                              verbose = TRUE) {
+
+  thankyou_screens <- list(ref = ref,
+                           title = title,
+                           type = type,
+                           properties = list(
+                             show_button = show_button,
+                             button_text = button_text,
+                             button_mode = button_mode
+                           ))
+
+  form_object$thankyou_screens <- append(form_object$thankyou_screens, thankyou_screens[!thankyou_screens %in% form_object$thankyou_screens])
+  if (length(form_object$thankyou_screens) == 1)
+    form_object$thankyou_screens <- list(form_object$thankyou_screens)
+
+
+  if (verbose)
+    print(jsonlite::toJSON(form_object, auto_unbox = T, pretty = TRUE))
+  invisible(form_object)
+}
