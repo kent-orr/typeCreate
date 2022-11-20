@@ -125,6 +125,18 @@ field_prop_multi <- function(
 }
 
 
+#' Thank You Screens for Ending
+#'
+#' @inheritParams form_field
+#' @param type Valid values: "thankyou_screen", "url_redirect". The type of thank you screen.
+#' @param show_button T/F display button
+#' @param button_text button text
+#' @param button_mode Valid values: "reload", "default_redirect", "redirect"
+#'
+#' @return
+#' @export
+#'
+#' @examples
 thank_you_screens <- function(form_object,
                               title = "Response Recorded",
                               ref = snakecase::to_snake_case(title),
