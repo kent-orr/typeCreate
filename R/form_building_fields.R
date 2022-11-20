@@ -155,10 +155,13 @@ thank_you_screens <- function(form_object,
                              button_mode = button_mode
                            ))
 
-  form_object$thankyou_screens <- append(form_object$thankyou_screens, thankyou_screens[!thankyou_screens %in% form_object$thankyou_screens])
-  if (length(form_object$thankyou_screens) == 1)
-    form_object$thankyou_screens <- list(form_object$thankyou_screens)
+  # browser()
 
+  if (length(form_object$thankyou_screens) == 0) {
+    form_object$thankyou_screens <- list(thankyou_screens)
+  } else {
+    form_object$thankyou_screens <- append(form_object$thankyou_screens, thankyou_screens[!thankyou_screens %in% form_object$thankyou_screens])
+  }
 
   if (verbose)
     print(jsonlite::toJSON(form_object, auto_unbox = T, pretty = TRUE))
