@@ -53,7 +53,8 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
                                          "response_id",
                                          names(x)[which(!names(x) %in% c("submitted_at", "response_id"))]
                                          )
-                                    )}()
+                                    )}() |>
+      subset(!is.na(field.id))
 
     # convert the various fields that contain the responses to a single column "value"
     values <- sapply(response.l["items"][[1]][["answers"]], \(i) {
@@ -61,12 +62,12 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
         f_extract <- val_extractor(i[["type"]][j])
         f_extract(i, j)
       })
-    }) |> as.vector()
+    }) |> c(recursive = TRUE)
 
     # concatenate the different ref objects, which usually are a human readable identifier
     refs <- sapply(response.l["items"][[1]][["answers"]], \(i) {
       i[[1]][["ref"]]
-    }) |> as.vector()
+    }) |> c(recursive = TRUE)
 
     response[,value := values]
     response[,ref := refs]
