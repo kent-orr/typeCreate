@@ -144,6 +144,7 @@ thank_you_screens <- function(form_object,
                               show_button = TRUE,
                               button_text = "Record Again",
                               button_mode = "reload",
+                              share_icons = FALSE,
                               verbose = TRUE) {
 
   thankyou_screens <- list(ref = ref,
@@ -152,7 +153,8 @@ thank_you_screens <- function(form_object,
                            properties = list(
                              show_button = show_button,
                              button_text = button_text,
-                             button_mode = button_mode
+                             button_mode = button_mode,
+                             share_icons = share_icons
                            ))
 
   # browser()

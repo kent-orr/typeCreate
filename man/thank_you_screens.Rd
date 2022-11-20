@@ -12,6 +12,7 @@ thank_you_screens(
   show_button = TRUE,
   button_text = "Record Again",
   button_mode = "reload",
+  share_icons = FALSE,
   verbose = TRUE
 )
 }
