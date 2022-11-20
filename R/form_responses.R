@@ -48,7 +48,7 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
       x[,submitted_at := response$items$submitted_at[i]]
       x[,response_id := response$items$response_id[i]]
     }) |>
-      data.table::rbindlist() |>
+      data.table::rbindlist(fill = TRUE) |>
       {\(x) data.table::setcolorder(x, c("submitted_at",
                                          "response_id",
                                          names(x)[which(!names(x) %in% c("submitted_at", "response_id"))]
