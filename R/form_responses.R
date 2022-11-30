@@ -40,6 +40,11 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
   response <- type_request(glue::glue("forms/{form_id}/responses{query}"), auth)
   response.l <- response <- response$content |> rawToChar() |> jsonlite::fromJSON()
 
+  if (response$total_items < 1) {
+    message("no responses retrieved")
+    return(data.table::data.table())
+  }
+
   if (attempt_table) {
 
     # create a data.table of each submission object suing timestamp and id
