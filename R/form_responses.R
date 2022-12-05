@@ -40,7 +40,7 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
   response <- type_request(glue::glue("forms/{form_id}/responses{query}"), auth)
   response.l <- response <- response$content |> rawToChar() |> jsonlite::fromJSON()
 
-  if (response$total_items < 1) {
+  if (is.null(response$total_items) || response$total_items < 1) {
     message("no responses retrieved")
     return(data.table::data.table())
   }
