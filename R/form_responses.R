@@ -11,6 +11,8 @@ val_extractor <- function(type) {
     function(answer_obj, i) {list(answer_obj["choice"][[1]]["ref"][[1]][i])}
   } else if (type == "choices") {
     function(answer_obj, i) {answer_obj["choices"][[1]]["refs"][[1]][i]}
+  } else if (is.null(type) | is.na(type)) {
+    NA
   }
 }
 
