@@ -66,6 +66,8 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
 
     # convert the various fields that contain the responses to a single column "value"
     values <- sapply(response.l["items"][[1]][["answers"]], \(i) {
+      if (is.null(i) || is.na(i))
+        NA
       sapply(seq_along(i[["type"]]), \(j) {
         f_extract <- val_extractor(i[["type"]][j])
         f_extract(i, j)
