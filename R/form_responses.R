@@ -76,6 +76,8 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
 
     # concatenate the different ref objects, which usually are a human readable identifier
     refs <- sapply(response.l["items"][[1]][["answers"]], \(i) {
+      if (is.null(i) || is.na(i))
+        return(NA)
       i[[1]][["ref"]]
     }) |> c(recursive = TRUE)
 
