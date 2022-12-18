@@ -59,8 +59,8 @@ type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE
                                          "response_id",
                                          names(x)[which(!names(x) %in% c("submitted_at", "response_id"))]
                                          )
-                                    )}() |>
-      subset(!is.na(field.id))
+                                    )}()
+    if (!is.null(response$field.id))  response <- subset(response, !is.na(field.id))
 
     # convert the various fields that contain the responses to a single column "value"
     values <- sapply(response.l["items"][[1]][["answers"]], \(i) {
