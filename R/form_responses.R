@@ -29,6 +29,11 @@ val_extractor <- function(type) {
 #' @export
 #'
 type_responses <- function(form_id, ..., attempt_table = TRUE, wide_table = TRUE, auth = config::get()$typeform) {
+  if (is.null(form_id)) {
+    message("NULL form_id, returning blank dataframe")
+    return(data.table())
+  }
+
 
   query <- list(...)
   query <- if (length(query) != 0) {
